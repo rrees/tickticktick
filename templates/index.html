@@ -6,14 +6,24 @@
 <div class="wrapper">
 	<header>
 	<h1>TickTickTick</h1>
+
+	<p>A little app to help you navigate the Guardian based on how much time you have.</p>
+
+	<h2>How long do you have?</h2>
+	
+	<div class="button-bar"><button>5 mins</button><button>10 mins</button><button>15 mins</button><br><button>More...</button></div>
+
 	</header>
 
 	<section>
-		<h2>How long you got?</h2>
-		<div class="button-bar"><button>5 mins</button><button>10 mins</button></div>
+		
 		<h3>Read this...</h3>
-		<ol>
-			<li>Content</li>
+		<ol id="content-list">
+			{% if content %}
+			{% for item in content %}
+			<li><a href="{{item.webUrl}}">{{item.webTitle}}</a> ({{item.fields.wordcount}})</li>
+			{% endfor %}
+			{% endif %}
 		</ol>
 	</section>
 

@@ -45,7 +45,7 @@ def read_todays_content(page = 1, results =  None):
 	if not total_pages:
 		return
 
-	results.append(api_response.get("results", []))
+	results.extend(api_response.get("results", []))
 	#logging.info(results)
 
 	if int(total_pages) == page:
@@ -62,7 +62,7 @@ class TodaysContent(webapp2.RequestHandler):
 		content = read_todays_content()
 
 		if content:
-			memcache.add("today", json.dumps(content), 5 * 60)
+			memcache.add("today", json.dumps(content))
 			data['results'] = content
 
 		headers.json(self.response)

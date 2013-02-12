@@ -1,0 +1,4 @@
+cron:
+  - description: Read today's content
+    url: /tasks/today
+    schedule: every 5 minutes
