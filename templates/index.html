@@ -11,26 +11,33 @@
 
 	<h2>How long do you have?</h2>
 	
-	<div class="button-bar"><button>5 mins</button><button>10 mins</button><button>15 mins</button><br><button>More...</button></div>
+	<div class="button-bar"><button>1 min</button><button>2 mins</button><button>5 mins</button><br>
+	<button>10 mins</button><button>15 mins</button><button>More...</button></div>
 
 	</header>
 
 	<section>
 		
 		<h3>Read this...</h3>
-		<ol id="content-list">
-			{% if content %}
-			{% for item in content %}
-			<li><a href="{{item.webUrl}}">{{item.webTitle}}</a> ({{item.fields.wordcount}})</li>
-			{% endfor %}
-			{% endif %}
+		<ol id="content-list" data-bind="foreach: content">
+			<li><a data-bind="attr: {href: webUrl}, text: webTitle"></a> (<span class="content-list-wordcount" data-bind="text: fields.wordcount"></span>)</li>
 		</ol>
 	</section>
 
 </div>
 
 <script type="text/coffeescript">
-	console.log "Hello world"
+	$ ->
+		console.log "Hello world"
+		content = ko.observableArray();
+
+		$.getJSON("/api/content/from/0/to/1", (data) ->
+			content.push item for item in data.content)
+
+		console.log content().length
+
+		ko.applyBindings {"content" : content}
+
 </script>
 
 {% endblock %}
