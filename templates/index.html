@@ -11,8 +11,8 @@
 
 	<h2>How long do you have?</h2>
 	
-	<div class="button-bar"><button>1 min</button><button>2 mins</button><button>5 mins</button><br>
-	<button>10 mins</button><button>15 mins</button><button>More...</button></div>
+	<div class="button-bar"><button data-min="0" data-max="1">1 min</button><button data-min="1" data-max="2">2 mins</button><button data-min="2" data-max="5">5 mins</button><br>
+	<button data-min="10" data-max="200">More...</button></div>
 
 	</header>
 
@@ -27,16 +27,25 @@
 </div>
 
 <script type="text/coffeescript">
+	readContent = (displayContent, min, max) ->
+		$.getJSON("/api/content/from/#{min}/to/#{max}", (data) ->
+			displayContent.removeAll()
+			displayContent.push item for item in data.content)
+
 	$ ->
 		console.log "Hello world"
 		content = ko.observableArray();
 
-		$.getJSON("/api/content/from/0/to/1", (data) ->
-			content.push item for item in data.content)
-
-		console.log content().length
+		readContent(content, "0", "1")
 
 		ko.applyBindings {"content" : content}
+
+		$('.button-bar button').click () ->
+			min = $(this).data("min")
+			max = $(this).data("max")
+
+			readContent(content, min, max)
+
 
 </script>
 
