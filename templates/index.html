@@ -20,7 +20,7 @@
 		
 		<h3>Read this...</h3>
 		<ol id="content-list" data-bind="foreach: content">
-			<li><a data-bind="attr: {href: webUrl}, text: webTitle"></a> (<span class="content-list-wordcount" data-bind="text: fields.wordcount"></span>)</li>
+			<li><a data-bind="attr: {href: webUrl}, text: webTitle"></a> (<span class="content-list-wordcount" data-bind="text: readingTime"></span>)</li>
 		</ol>
 	</section>
 
@@ -37,7 +37,6 @@
 			displayContent.push item for item in data.content)
 
 	$ ->
-		console.log "Hello world"
 		content = ko.observableArray();
 
 		readContent(content, "0", "1")

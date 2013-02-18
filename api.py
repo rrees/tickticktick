@@ -10,6 +10,18 @@ import data_filters
 import extract
 import headers
 
+import math
+
+def calculate_reading_time(content):
+	wordcount = int(extract.wordcount(content))
+	readingMinutes = wordcount / 250.0
+	minutes = math.floor(readingMinutes)
+	seconds = math.floor(60 * (readingMinutes % 1))
+
+	content['readingTime'] = "%02d:%02d" % (minutes, seconds)
+
+	return content
+
 class RangedContent(webapp2.RequestHandler):
 	def get(self, minimum, maximum):
 
@@ -21,10 +33,10 @@ class RangedContent(webapp2.RequestHandler):
 		if data:
 			all_content = json.loads(data)
 			valid_filter = lambda x: data_filters.has_wordcount(x) and data_filters.minutes(int(minimum), int(maximum))(x) and data_filters.valid_section(x)
-			appropriate_content = filter(valid_filter, all_content)
+			appropriate_content = [calculate_reading_time(i) for i in all_content if valid_filter(i)]
+
 			sorted_content = sorted(appropriate_content, key = lambda x: int(extract.wordcount(x)), reverse = True)
 
-			logging.info([d["fields"]["wordcount"] for d in sorted_content])
 			result['content'] = sorted_content
 
 		headers.json(self.response)
@@ -43,7 +55,8 @@ class MinimumContent(webapp2.RequestHandler):
 
 			at_least = lambda x: int(extract.wordcount(x)) >= int(minimum) * 250
 			valid_filter = lambda x: data_filters.has_wordcount(x) and at_least(x) and data_filters.valid_section(x)
-			appropriate_content = filter(valid_filter, all_content)
+			appropriate_content = [calculate_reading_time(i) for i in all_content if valid_filter(i)]
+
 			sorted_content = sorted(appropriate_content, key = lambda x: int(extract.wordcount(x)), reverse = True)
 
 			result['content'] = sorted_content
