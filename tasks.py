@@ -62,7 +62,7 @@ class TodaysContent(webapp2.RequestHandler):
 		content = read_todays_content()
 
 		if content:
-			memcache.add("today", json.dumps(content))
+			memcache.set("today", json.dumps(content))
 			data['results'] = content
 
 		headers.json(self.response)
