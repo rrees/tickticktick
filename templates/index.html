@@ -9,9 +9,9 @@
 
 	<p>A little app to help you navigate the Guardian based on how much time you have.</p>
 
-	<h2>How long do you have?</h2>
+	<h2>How long do you want to spend?</h2>
 	
-	<div class="button-bar"><button data-min="0" data-max="1">1 min</button><button data-min="1" data-max="2">2 mins</button><button data-min="2" data-max="5">5 mins</button><br><button data-min="5" data-max="10">10 mins</button><button data-min="10" data-max="15">15 mins</button><button data-min="15" data-max="30">30 mins</button><br>
+	<div class="button-bar"><button data-min="0" data-max="1">1 min</button><button data-min="1" data-max="2">2 mins</button><button data-min="2" data-max="3">3 mins</button><br><button data-min="3" data-max="4">4 mins</button><button data-min="4" data-max="5">5 mins</button><button data-min="5" data-max="6">6 mins</button><br><button data-min="5" data-max="10">10 mins</button><button data-min="10" data-max="15">15 mins</button><button data-min="15" data-max="30">30 mins</button><br>
 	<button data-min="30">More...</button></div>
 
 	</header>
@@ -39,7 +39,7 @@
 	$ ->
 		content = ko.observableArray();
 
-		readContent(content, "0", "1")
+		readContent(content, "2", "3")
 
 		ko.applyBindings {"content" : content}
 
