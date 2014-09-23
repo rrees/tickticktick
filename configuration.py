@@ -1,3 +1,5 @@
+import logging
+
 from models import Configuration
 
 def create(key, value):

@@ -9,6 +9,9 @@ from google.appengine.api import urlfetch
 from google.appengine.api import memcache
 
 import headers
+import configuration
+
+API_KEY = configuration.lookup('API_KEY')
 
 def reading_seconds(words):
 	return (words / 250) * 60
@@ -17,12 +20,17 @@ def reading_seconds(words):
 def read_todays_content(page = 1, results =  None):
 	url = "http://content.guardianapis.com/search"
 
-	payload = {"page" : str(page),
+	today = datetime.date.today()
+
+	payload = {
+		"page" : str(page),
 		"page-size" : "50",
 		"format" : "json",
 		"show-fields" : "wordcount,headline,standfirst,thumbnail",
 		"tags" : "tone",
-		"date-id" : "date/today",}
+		"from-date" : today.isoformat(),
+		"api-key" : API_KEY,
+	}
 
 	final_url = url + "?" + urlencode(payload)
 	logging.info(final_url)
